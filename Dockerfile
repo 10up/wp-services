@@ -18,6 +18,7 @@ RUN \
     rsync \
     vim \
     screen \
+    less \
     unzip && apt clean all
 
 WORKDIR /
@@ -25,6 +26,7 @@ COPY scripts/composer-installer.sh /composer-installer.sh
 RUN sh /composer-installer.sh && mv /composer.phar /usr/local/bin/composer && chmod +x /usr/local/bin/composer
 RUN curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -o /usr/local/bin/wp
 RUN chmod +x /usr/local/bin/wp
+RUN rm -f /var/log/newrelic/*
 
 USER www-data
 RUN touch ~/.bashrc
