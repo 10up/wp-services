@@ -1,6 +1,6 @@
 # wp-services
 
-> This image extends the wp-php-fpm image to include tools useful for initializing, running and maintaining a WordPress installation. It can be deployed as part of a Kubernetes based installation of WordPress.
+> This image extends the wp-php-fpm image to include tools useful for initializing, running and maintaining a WordPress installation. It can be deployed as part of a Kubernetes based installation of WordPress. This image also includes 10up's [snapshots](https://github.com/10up/snapshots/releases) tool.
 
 [![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![MIT License](https://img.shields.io/github/license/10up/wp-php-fpm-dev.svg)](https://github.com/10up/wp-php-fpm-dev/blob/master/LICENSE)
 
