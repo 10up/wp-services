@@ -1,19 +1,22 @@
-ARG PHP_VERSION=8.2
+ARG PHP_VERSION=8.3
 
-# Set a BASE_IMAGE CI var to specify a different base image
+# Set a BASE_IMAGE CI var to specify a different base image without a tag
 ARG BASE_IMAGE=ghcr.io/10up/wp-php-fpm
-FROM ${BASE_IMAGE}:${PHP_VERSION}-ubuntu
+ARG UBUNTU_RELEASE_NAME=jammy
+FROM ${BASE_IMAGE}:${PHP_VERSION}-${UBUNTU_RELEASE_NAME}
 
-ARG PHP_VERSION=8.2
+ARG PHP_VERSION=8.3
+ARG TARGETPLATFORM
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV PHP_VERSION=${PHP_VERSION}
 
 USER root
+
 RUN \
   apt-get update && \
   apt-get install -y \
     mariadb-client \
-    netcat \
+    netcat-traditional \
     wget \
     telnet \
     rsync \

@@ -2,11 +2,50 @@
 
 > This image extends the wp-php-fpm image to include tools useful for initializing, running and maintaining a WordPress installation. It can be deployed as part of a Kubernetes based installation of WordPress. This image also includes 10up's [snapshots](https://github.com/10up/snapshots/releases) tool.
 
-[![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![MIT License](https://img.shields.io/github/license/10up/wp-php-fpm-dev.svg)](https://github.com/10up/wp-php-fpm-dev/blob/master/LICENSE)
+[![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![MIT License](https://img.shields.io/github/license/10up/wp-services.svg)](https://github.com/10up/wp-services/blob/master/LICENSE)
 
 ## Supported tags
 
-* `7.0`, `7.1`, `7.2`, `7.3`, `7.4`, `8.0`, `8.1`, '8.2'
+* Ubuntu 22.04 based (Docker Hub)
+  * 10up/wp-services:7.0-ubuntu
+  * 10up/wp-services:7.1-ubuntu
+  * 10up/wp-services:7.2-ubuntu
+  * 10up/wp-services:7.3-ubuntu
+  * 10up/wp-services:7.4-ubuntu
+  * 10up/wp-services:8.0-ubuntu
+  * 10up/wp-services:8.1-ubuntu
+  * 10up/wp-services:8.2-ubuntu
+  * 10up/wp-services:8.3-ubuntu
+* Ubuntu 22.04 based (Github Packages)
+  * ghcr.io/10up/wp-services:7.0-ubuntu
+  * ghcr.io/10up/wp-services:7.1-ubuntu
+  * ghcr.io/10up/wp-services:7.2-ubuntu
+  * ghcr.io/10up/wp-services:7.3-ubuntu
+  * ghcr.io/10up/wp-services:7.4-ubuntu
+  * ghcr.io/10up/wp-services:8.0-ubuntu
+  * ghcr.io/10up/wp-services:8.1-ubuntu
+  * ghcr.io/10up/wp-services:8.2-ubuntu
+  * ghcr.io/10up/wp-services:8.3-ubuntu
+* Ubuntu 24.04 based (Docker Hub)
+  * 10up/wp-services:7.0-noble
+  * 10up/wp-services:7.1-noble
+  * 10up/wp-services:7.2-noble
+  * 10up/wp-services:7.3-noble
+  * 10up/wp-services:7.4-noble
+  * 10up/wp-services:8.0-noble
+  * 10up/wp-services:8.1-noble
+  * 10up/wp-services:8.2-noble
+  * 10up/wp-services:8.3-noble
+* Ubuntu 24.04 based (Github Packages)
+  * ghcr.io/10up/wp-services:7.0-noble
+  * ghcr.io/10up/wp-services:7.1-noble
+  * ghcr.io/10up/wp-services:7.2-noble
+  * ghcr.io/10up/wp-services:7.3-noble
+  * ghcr.io/10up/wp-services:7.4-noble
+  * ghcr.io/10up/wp-services:8.0-noble
+  * ghcr.io/10up/wp-services:8.1-noble
+  * ghcr.io/10up/wp-services:8.2-noble
+  * ghcr.io/10up/wp-services:8.3-noble
 
 ## Usage
 
