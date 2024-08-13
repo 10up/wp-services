@@ -54,6 +54,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: false
+          driver-opts: |
+            network=host
           platforms: linux/amd64,linux/arm64
           build-args: |
             PHP_VERSION=${{ matrix.version }}
@@ -66,6 +68,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: false
+          driver-opts: |
+            network=host
           platforms: linux/amd64,linux/arm64
           build-args: |
             PHP_VERSION=${{ matrix.version }}
