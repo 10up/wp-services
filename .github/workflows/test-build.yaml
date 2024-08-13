@@ -14,7 +14,7 @@ jobs:
         ubuntu-release-name: ['jammy', 'noble']
     environment:
       name: Build
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
