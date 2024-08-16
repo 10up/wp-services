@@ -1,0 +1,73 @@
+stages:
+  - build
+
+.default_runner:
+  tags:
+    - kubernetes
+
+.kubernetes_dind:
+  extends: .default_runner
+  image: docker
+  services:
+    - name: docker:24.0-dind
+      command: ["--mtu=1440"]
+  variables:
+    DOCKER_HOST: tcp://docker:2376
+    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_TLS_VERIFY: 1
+    DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
+  before_script: # a hack to ensure the certs are ready
+    - i=0; while [ "$i" -lt 12 ]; do docker info && break; sleep 5; i=$(( i + 1 )) ; done
+
+.kubernetes_build_docker_image:
+  extends: .kubernetes_dind
+  image: docker:24
+  retry: 2
+  before_script:
+    - !reference [.kubernetes_dind, before_script]
+    - echo "$GITHUB_TOKEN" | docker login ghcr.io -u $GITHUB_USER --password-stdin
+    - echo "$DOCKER_HUB_TOKEN" | docker login -u $DOCKER_HUB_USER --password-stdin
+  script:
+    - echo "Building for PHP version $PHP_VERSION on Ubuntu $UBUNTU_RELEASE_NAME"
+    - mkdir /root/.kube && chmod 0700 /root/.kube && echo $KUBECONFIG > /root/.kube/config && chmod 0600 /root/.kube/config
+    - docker buildx create --name wp-services --driver kubernetes --platform linux/amd64 --driver-opt nodeselector=kubernetes.io/arch=amd64 --node k3s-amd64-${PHP_VERSION}-${UBUNTU_RELEASE_NAME}
+    - docker buildx create --append --name wp-services --driver kubernetes --platform linux/arm64 --driver-opt tolerations=[{"key":"GitlabRunner","operator":"Equal","value":"true","effect":"NoSchedule"}] --driver-opt nodeselector=kubernetes.io/arch=arm64 --node k3s-arm64-${PHP_VERSION}-${UBUNTU_RELEASE_NAME}
+    - docker buildx use wp-services
+    - docker buildx inspect --bootstrap
+    - |
+      if [ "${UBUNTU_RELEASE_NAME}" == "jammy" ]; then
+        TAGS="-t ghcr.io/${IMAGE_NAME}:${PHP_VERSION}-${UBUNTU_RELEASE_NAME} -t ghcr.io/${IMAGE_NAME}:${PHP_VERSION}-ubuntu -t ${IMAGE_NAME}:${PHP_VERSION}-${UBUNTU_RELEASE_NAME} -t ${IMAGE_NAME}:${PHP_VERSION}-ubuntu"
+      else
+        TAGS="-t ghcr.io/${IMAGE_NAME}:${PHP_VERSION}-${UBUNTU_RELEASE_NAME} -t ${IMAGE_NAME}:${PHP_VERSION}-${UBUNTU_RELEASE_NAME}"
+      fi
+    - |
+      if [ "${RELEASE:-false}" == "true" ]; then
+        PUSH="--push"
+      fi
+    - docker buildx build --network host --no-cache --build-arg UBUNTU_RELEASE_NAME=${UBUNTU_RELEASE_NAME} --build-arg PHP_VERSION=${PHP_VERSION} --pull ${PUSH} --platform linux/amd64,linux/arm64 ${TAGS} .
+    - docker buildx rm wp-services
+
+
+Build wp-services (Test):
+  stage: build
+  extends: .kubernetes_build_docker_image
+  variables:
+    IMAGE_NAME: 10up/wp-services
+  parallel:
+    matrix:
+      - PHP_VERSION: ['7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3']
+        UBUNTU_RELEASE_NAME: ['jammy', 'noble']
+  
+Build wp-services:
+  stage: build
+  extends: .kubernetes_build_docker_image
+  variables:
+    IMAGE_NAME: 10up/wp-services
+    RELEASE: true
+  parallel:
+    matrix:
+      - PHP_VERSION: ['7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3']
+        UBUNTU_RELEASE_NAME: ['jammy', 'noble']
+  only:
+    refs:
+      - trunk
