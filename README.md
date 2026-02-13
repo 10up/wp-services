@@ -2,7 +2,10 @@
 
 > This image extends the wp-php-fpm image to include tools useful for initializing, running and maintaining a WordPress installation. It can be deployed as part of a Kubernetes based installation of WordPress. This image also includes 10up's [snapshots](https://github.com/10up/snapshots/releases) tool.
 
-[![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![MIT License](https://img.shields.io/github/license/10up/wp-php-fpm-dev.svg)](https://github.com/10up/wp-php-fpm-dev/blob/master/LICENSE)
+[![Support Level](https://img.shields.io/badge/support-archived-red.svg)](#support-level) [![MIT License](https://img.shields.io/github/license/10up/wp-php-fpm-dev.svg)](https://github.com/10up/wp-php-fpm-dev/blob/master/LICENSE)
+
+> [!CAUTION]
+> As of 13 February 2026, this project is archived and no longer being actively maintained.
 
 ## Supported tags
 
@@ -36,7 +39,7 @@ This image uses GitHub actions. For it to work you must create an environment ca
 
 ## Support Level
 
-**Active:** 10up is actively working on this, and we expect to continue work for the foreseeable future including keeping tested up to the most recent version of WordPress.  Bug reports, feature requests, questions, and pull requests are welcome.
+**Archived:** This project is no longer maintained by 10up. We are no longer responding to Issues or Pull Requests unless they relate to security concerns. We encourage interested developers to fork this project and make it their own!
 
 ## Like what you see?
 
